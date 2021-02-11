@@ -12,7 +12,7 @@ let app = express();
 // set the view engine
 app.set("view engine", "hbs");
 
-// static folder
+// static foldery
 app.use(express.static("public"));
 
 // setup wax-on
@@ -21,94 +21,56 @@ wax.setLayoutPath("./views/layouts");
 
 // enable forms
 app.use(
-  express.urlencoded({
-    extended: false
-  })
+    express.urlencoded({
+        extended: false
+    })
 );
 
 async function main() {
-  let db = await MongoUtil.connect(mongoUrl, "tgc11_recipes");
+    let db = await MongoUtil.connect(mongoUrl, "hands-on");
 
-  // MongoDB is connected and alive
-
-  // Show the form to create the ingredient
-  app.get("/ingredients/create", (req, res) => {
-    res.render("ingredients/create");
-  });
-
-  // Actually process the form to create the ingredient
-  app.post("/ingredients/create", async (req, res) => {
-    await db.collection("ingredients").insertOne({
-      name: req.body.ingredientName
-    });
-
-    res.redirect('/ingredients')
-  });
-
-  // Show all ingredients in the system
-  app.get("/ingredients", async (req, res) => {
-    // find all the ingredients
-    let ingredients = await db
-      .collection("ingredients") //select the ingredients collection
-      .find({}) // find all the ingredient with no criteria
-      .toArray(); // convert to array
-
-    res.render('ingredients/all', {
-        'everything': ingredients
+    // MongoDB is connected and alive
+    //Create
+    app.get("/cuisine/create", (req, res) => {
+        res.render("cuisines/create")
     })
-  });
 
-  // Delete ingredient from the system
-  app.get('/ingredients/:ingredient_id/delete', async (req,res)=>{
-    let id = req.params.ingredient_id;
-    let ingredient = await db.collection('ingredients').findOne({
-        '_id':ObjectId(id)
-    })
-    // test to ensure it's working
-    res.render('ingredients/delete',{
-        'ingredient':ingredient
-    })
-  })
-
-  // process is what sent via the form
-  app.post('/ingredients/:ingredient_id/delete', async(req,res)=>{
-        await db.collection('ingredients').remove({
-            '_id':ObjectId(req.params.ingredient_id)
+    app.post("/cuisine/create", async (req, res) => {
+        await db.collection("cuisines").insertOne({
+            "type": req.body.cuisineType
         })
-        res.redirect('/ingredients')
-  })
+        res.send("Cuisine Type has been added.")
+    })
 
-  // update
-  app.get('/ingredients/:ingredient_id/update', async (req,res)=>{
-      // we retrieve the ingredient information
-      let ingredient_id = req.params.ingredient_id;
-      let ingredient = await db.collection('ingredients').findOne({
-          '_id': ObjectId(ingredient_id)
-      });
 
-      res.render('ingredients/update', {
-          'ingredient': ingredient
-      })
-  })
+    //Reading
+    // Display all content under cuisines
+    app.get("/cuisine/all", async (req, res) => {
+        let cuisines = await db
+            .collection("cuisines") //select the ingredients collection
+            .find({}) // find all the ingredient with no criteria
+            .toArray(); // convert to array
+        res.render("cuisines/all",{
+            "type" : cuisines
+        })
+    })
 
-  app.post('/ingredients/:ingredient_id/update',async (req,res)=>{
-      let newIngredientName = req.body.ingredientName;
-      let ingredientId = req.params.ingredient_id;
-      db.collection('ingredients').updateOne({
-          '_id': ObjectId(ingredientId)
-      }, {
-          '$set': {
-            'name': newIngredientName
-          }           
-      });
+    app.get("/cuisine/:cuisine_id/delete", async (req,res)=>{
+        let cuisineId = req.params.cuisine_id
+        let cuisine = await db.collection("cuisine").findOne({
+            "_id": ObjectId(cuisineId)
+        })
 
-      res.redirect('/ingredients')
-  })
+            res.render("cuisines/delete", {
+            "type": cuisine
+        })
+    })
 
 }
+
 
 main();
 
 app.listen(3000, () => {
-  console.log("Server has started");
-});
+    console.log("Sever has started");
+})

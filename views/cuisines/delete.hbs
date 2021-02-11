@@ -3,10 +3,10 @@
 {{#block 'content'}}
 <form method="POST">
     <div class="alert alert-danger">
-        Are you sure you want to delete the ingredient '{{ingredient.name}}'?
+        Are you sure you want to delete '{{type.type}}'?
     </div>
     <input type="submit" class="btn btn-danger mt-3" value="Yes"/>
-    <a href="/ingredients" class="btn btn-primary mt-3">No</a>
+    <a href="/cuisine/all" class="btn btn-primary mt-3">No</a>
 </form>
 
 {{/block}}
