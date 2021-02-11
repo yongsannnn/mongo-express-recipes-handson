@@ -1,0 +1,10 @@
+{{#extends 'base'}}
+{{#block 'content'}}
+<ul>
+    {{#each everything}}
+        <li>{{this.name}} ({{this._id}})</li>
+    {{/each}}
+</ul>
+
+{{/block}}
+{{/extends}}

@@ -1,0 +1,13 @@
+{{#extends 'base'}}
+{{#block 'content'}}
+<h1>Editing {{ingredient.name}}</h1>
+<form method="POST">
+    <div>
+        <label class="form-label">Ingredient name</label>
+        <input type="text" name="ingredientName" class="form-control" value="{{ingredient.name}}"/>
+    </div>
+    <input type="submit" value="Update" class="btn btn-primary mt-3"/>
+
+</form>
+{{/block}}
+{{/extends}}

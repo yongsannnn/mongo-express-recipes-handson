@@ -1,0 +1,29 @@
+{
+  "title": "Hainanese Chicken Rice",
+  "difficulty": 4,
+  "ingredients": [
+    {
+      "type": "protein",
+      "name": "whole chicken",
+      "quantity": "500g"
+    },
+    {
+      "type": "starch",
+      "name": "rice",
+      "quantity": "4 cups"
+    }
+  ],
+  "instructions": [
+    "Skin the chicken...",
+    "Boil the chicken into stock..."
+  ],
+  "cuisine": [
+      "chinese"
+  ],
+  "tags":[
+      "rice", "singapore", "malaysian", "steamed"
+  ],
+  "cooking_methods":[
+      "steamed"
+  ]
+}
