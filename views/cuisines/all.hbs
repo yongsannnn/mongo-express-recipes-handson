@@ -1,8 +1,12 @@
 {{#extends 'base'}}
 {{#block 'content'}}
 <ul>
+    <a href="/cuisine/create" class="btn btn-primary mt-3">Create</a>
     {{#each type}}
         <li>{{this.type}} ({{this._id}})</li>
+    <a href="/cuisine/{{this._id}}/update" class="btn btn-success mt-3">Edit</a>
+    <a href="/cuisine/{{this._id}}/delete" class="btn btn-danger mt-3">Delete</a>
+
     {{/each}}
 </ul>
 

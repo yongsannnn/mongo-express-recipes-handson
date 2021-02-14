@@ -39,7 +39,7 @@ async function main() {
         await db.collection("cuisines").insertOne({
             "type": req.body.cuisineType
         })
-        res.send("Cuisine Type has been added.")
+        res.redirect("/cuisine/all")
     })
 
 
@@ -50,23 +50,61 @@ async function main() {
             .collection("cuisines") //select the ingredients collection
             .find({}) // find all the ingredient with no criteria
             .toArray(); // convert to array
-        res.render("cuisines/all",{
-            "type" : cuisines
+        res.render("cuisines/all", {
+            "type": cuisines
         })
     })
 
-    app.get("/cuisine/:cuisine_id/delete", async (req,res)=>{
+
+    // Setting up Deleting 
+    app.get("/cuisine/:cuisine_id/delete", async (req, res) => {
         let cuisineId = req.params.cuisine_id
-        let cuisine = await db.collection("cuisine").findOne({
+        let cuisine = await db.collection("cuisines").findOne({
             "_id": ObjectId(cuisineId)
         })
 
-            res.render("cuisines/delete", {
-            "type": cuisine
+        res.render("cuisines/delete", {
+            "cuisine": cuisine
+        })
+
+    })
+
+    // Post Delete
+    app.post('/cuisine/:cuisine_id/delete', async (req, res) => {
+        await db.collection('cuisines').remove({
+            '_id': ObjectId(req.params.cuisine_id)
+        })
+        res.redirect('/cuisine/all')
+    })
+
+    // Setting up Update
+    app.get('/cuisine/:cuisine_id/update', async (req, res) => {
+        let cuisineId = req.params.cuisine_id;
+        let cuisine = await db.collection('cuisines').findOne({
+            '_id': ObjectId(cuisineId)
+        });
+
+        res.render('cuisines/update', {
+            'cuisine': cuisine
         })
     })
 
-}
+
+    // Post Update
+    app.post("/cuisine/:cuisine_id/update", (req, res) => {
+        let newName = req.body.cuisineName
+        let cuisineId = req.params.cuisine_id
+        db.collection("cuisines").updateOne({
+            "_id": ObjectId(cuisineId)
+        },{
+            "$set": {
+                "type": newName
+            }
+        })
+        res.redirect("/cuisine/all")
+    })
+} // end of main function
+
 
 
 main();

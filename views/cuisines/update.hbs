@@ -1,12 +1,14 @@
 {{#extends 'base'}}
 {{#block 'content'}}
-<h1>Editing {{ingredient.name}}</h1>
+<h1>Editing {{cuisine.type}}</h1>
 <form method="POST">
     <div>
-        <label class="form-label">Ingredient name</label>
-        <input type="text" name="ingredientName" class="form-control" value="{{ingredient.name}}"/>
+        <label class="form-label">Cuisine name</label>
+        <input type="text" name="cuisineName" class="form-control" value="{{cuisine.type}}"/>
     </div>
     <input type="submit" value="Update" class="btn btn-primary mt-3"/>
+    <input type="submit" value="Back" class="btn btn-success mt-3"/>
+
 
 </form>
 {{/block}}
