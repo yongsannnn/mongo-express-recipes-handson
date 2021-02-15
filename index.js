@@ -30,11 +30,11 @@ async function main() {
     let db = await MongoUtil.connect(mongoUrl, "hands-on");
 
     // MongoDB is connected and alive
-    //Create
+    // Setting up Create
     app.get("/cuisine/create", (req, res) => {
         res.render("cuisines/create")
     })
-
+    // Post Create
     app.post("/cuisine/create", async (req, res) => {
         await db.collection("cuisines").insertOne({
             "type": req.body.cuisineType
@@ -103,6 +103,13 @@ async function main() {
         })
         res.redirect("/cuisine/all")
     })
+
+    // Setting up create Comment
+    // app.get("/cuisine/:cuisine_id/comments/create", async (req,res)=>{
+    // })
+
+
+
 } // end of main function
 
 
